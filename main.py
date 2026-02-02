@@ -35,7 +35,7 @@ def register_token():
     if not token:
         abort(400)
 
-    valid_tokens[token] = time.time() + 5
+    valid_tokens[token] = time.time() + 15
     return "ok"
 
 
