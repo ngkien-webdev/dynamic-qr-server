@@ -17,14 +17,14 @@ def qr_redirect():
     token = request.args.get("token")
 
     if not token:
-        abort(403)
+        return "Missing token", 403
 
     exp = valid_tokens.get(token)
     if exp is None:
-        abort(403)
+        return "Token not found (server may have restarted)", 403
 
     if time.time() > exp:
-        abort(403)
+        return "Token expired", 403
 
     return redirect(TARGET_URL)
 
@@ -33,7 +33,7 @@ def qr_redirect():
 def register_token():
     token = request.args.get("token")
     if not token:
-        abort(400)
+        return "Missing token", 400
 
     valid_tokens[token] = time.time() + 15
     return "ok"
